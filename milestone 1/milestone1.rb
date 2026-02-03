@@ -388,116 +388,15 @@ class Rvalue
     end
 end
 
-# EVALUATOR VISITOR
 
 
-class Evaluator
+
+class Translator
     def visit_int(node)
-        node
+        node.raw_value.to_s
     end
 
     def visit_float(node)
-        node
+        node.raw_value
     end
-
-    def visit_bool(node)
-        node
-    end
-
-    def visit_string(node)
-        node
-    end
-
-    def visit_null(node)
-        node
-    end
-
-    def visit_add(node)
-        left_value = node.left.visit(self)
-        right_value = node.right.visit(self)
-        # ADD TWO INTS -> return an int
-        if left_value.is_a?(IntegerPrimitive) && right_value.is_a?(IntegerPrimitive)
-            IntegerPrimitive.new(left_value.raw_value + right_value.raw_value)
-        # ADD TWO FLOATS -> return a float
-        elsif left_value.is_a?(FloatPrimitive) && right_value.is_a?(FloatPrimitive)
-            FloatPrimitive.new(left_value.raw_value + right_value.raw_value)
-        # WHAT DID YOU EVEN TRY TO ADD???
-        else
-            raise "TypeError: Unsupported operand types for +: #{left_value.class} and #{right_value.class}"
-        end
-    end
-
-    def visit_subtract(node)
-        left_value = node.left.visit(self)
-        right_value = node.right.visit(self)
-        # SUBTRACT TWO INTS -> return an int
-        if left_value.is_a?(IntegerPrimitive) && right_value.is_a?(IntegerPrimitive)
-            IntegerPrimitive.new(left_value.raw_value - right_value.raw_value)
-        # SUBTRACT TWO FLOATS -> return a float
-        elsif left_value.is_a?(FloatPrimitive) && right_value.is_a?(FloatPrimitive)
-            FloatPrimitive.new(left_value.raw_value - right_value.raw_value)
-        # WHAT DID YOU EVEN TRY TO SUBTRACT???
-        else
-            raise "TypeError: Unsupported operand types for -: #{left_value.class} and #{right_value.class}"
-        end
-    end
-
-    def visit_multiply(node)
-        left_value = node.left.visit(self)
-        right_value = node.right.visit(self)
-        # MULTIPLY TWO INTS -> return an int
-        if left_value.is_a?(IntegerPrimitive) && right_value.is_a?(IntegerPrimitive)
-                IntegerPrimitive.new(left_value.raw_value * right_value.raw_value)
-        # MULTIPLY TWO FLOATS -> return a float
-        elsif left_value.is_a?(FloatPrimitive) && right_value.is_a?(FloatPrimitive)
-            FloatPrimitive.new(left_value.raw_value * right_value.raw_value)
-        # WHAT DID YOU EVEN TRY TO MULTIPLY???
-        else
-            raise "TypeError: Unsupported operand types for *: #{left_value.class} and #{right_value.class}"
-        end
-    end
-
-    def visit_divide(node)
-        left_value = node.left.visit(self)
-        right_value = node.right.visit(self)
-        # DIVIDE TWO INTS -> return an int
-        if left_value.is_a?(IntegerPrimitive) && right_value.is_a?(IntegerPrimitive)
-            IntegerPrimitive.new(left_value.raw_value / right_value.raw_value)
-        # DIVIDE TWO FLOATS -> return a float
-        elsif left_value.is_a?(FloatPrimitive) && right_value.is_a?(FloatPrimitive)
-            FloatPrimitive.new(left_value.raw_value / right_value.raw_value)
-        # WHAT DID YOU EVEN TRY TO DIVIDE???
-        else
-            raise "TypeError: Unsupported operand types for /: #{left_value.class} and #{right_value.class}"
-        end
-    end
-
-    def visit_mod(node)
-        left_value = node.left.visit(self)
-        right_value = node.right.visit(self)
-        # MOD TWO INTS -> return an int
-        if left_value.is_a?(IntegerPrimitive) && right_value.is_a?(IntegerPrimitive)
-            IntegerPrimitive.new(left_value.raw_value % right_value.raw_value)
-        # MOD TWO FLOATS -> return a float
-        elsif left_value.is_a?(FloatPrimitive) && right_value.is_a?(FloatPrimitive)
-            FloatPrimitive.new(left_value.raw_value % right_value.raw_value)
-        # WHAT DID YOU EVEN TRY TO MOD???
-        else
-            raise "TypeError: Unsupported operand types for %: #{left_value.class} and #{right_value.class}"
-        end
-    end
-
-    def visit_exponentiate(node)
-        left_value = node.left.visit(self)
-        right_value = node.right.visit(self)
-        # EXPONENTIATE TWO INTS -> return an int
-        if left_value.is_a?(IntegerPrimitive) && right_value.is_a?(IntegerPrimitive)
-            IntegerPrimitive.new(left_value.raw_value ** right_value.raw_value)
-        else
-            raise "TypeError: Unsupported operand types for **: #{left_value.class} and #{right_value.class}"
-        end
-    end
-
-    def 
-
 end
