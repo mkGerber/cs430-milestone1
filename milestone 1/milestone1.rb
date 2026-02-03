@@ -350,7 +350,29 @@ end
 
 # TWO CASTING OPERATORS
 
+class IntToFloat
+  attr_reader :expr
 
+  def initialize(expr)
+    @expr = expr
+  end
+
+  def visit(visitor)
+    visitor.visit_int_to_float(self)
+  end
+end
+
+class FloatToInt
+  attr_reader :expr
+
+  def initialize(expr)
+    @expr = expr
+  end
+
+  def visit(visitor)
+    visitor.visit_float_to_int(self)
+  end
+end
 
 
 class Evaluator
