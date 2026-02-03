@@ -108,6 +108,4 @@ class Evaluator
         end
     end
 
-    def 
-
 end
