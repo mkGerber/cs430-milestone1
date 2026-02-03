@@ -1,0 +1,3 @@
+puts variable_a
+variable_b
+puts variable_b
