@@ -1,7 +1,6 @@
-#include 'visitors.rb'
 require_relative 'visitors'
 require_relative 'translator'
-
+require_relative 'runtime'
 # FIVE PRIMITIVES
 
 class IntegerPrimitive
@@ -146,7 +145,7 @@ class Negate
     end
 
     def visit(visitor)
-        visitor.visit_negate
+        visitor.visit_negate(self)
     end
 end
 
@@ -239,7 +238,7 @@ class BitwiseNot
     end
 
     def visit(visitor)
-        visitor.visit_not(self)
+        visitor.visit_bitwise_not(self)
     end
 end
 
@@ -388,6 +387,47 @@ class Rvalue
         visitor.visit_rvalue(self)
     end
 end
+
+
+class Assign
+    attr_reader :name, :expr
+
+    def initialize(name, expr)
+        @name = name
+        @expr = expr
+    end
+
+    def visit(visitor)
+        visitor.visit_assign(self)
+    end
+end
+
+
+class Print
+    attr_reader :expr
+
+    def initialize(expr)
+        @expr = expr
+    end
+
+    def visit(visitor)
+        visitor.visit_print(self)
+    end
+end
+
+
+class Block
+    attr_reader :statements
+
+    def initialize(statements)
+        @statements = statements
+    end
+
+    def visit(visitor)
+        visitor.visit_block(self)
+    end
+end
+
 
 
 

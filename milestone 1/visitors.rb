@@ -2,6 +2,10 @@
 
 
 class Evaluator
+    def initialize(runtime)
+        @runtime = runtime
+    end
+
     def visit_int(node)
         node
     end
@@ -105,6 +109,52 @@ class Evaluator
             IntegerPrimitive.new(left_value.raw_value ** right_value.raw_value)
         else
             raise "TypeError: Unsupported operand types for **: #{left_value.class} and #{right_value.class}"
+        end
+    end
+
+    def visit_rvalue(node)
+        name = node.expr
+        @runtime.get(name)
+    end
+
+    def visit_assign(node)
+        value = node.expr.visit(self)
+        @runtime.set(node.name, value)
+        value
+    end
+
+    def visit_print(node)
+        value = node.expr.visit(self)
+        if value.is_a?(NullPrimitive)
+            puts "null"
+        else
+            puts value.raw_value
+        end
+        NullPrimitive.new
+    end
+
+    def visit_block(node)
+        if node.statements.length == 0
+            return NullPrimitive.new
+        end
+
+        result = NullPrimitive.new
+
+        for i in 0...node.statements.length
+            result = node.statements[i].visit(self)
+        end
+        result
+    end
+
+    def visit_negate(node)
+        value = node.left.visit(self)
+
+        if value.is_a?(IntegerPrimitive)
+            IntegerPrimitive.new(-value.raw_value)
+        elsif value.is_a?(FloatPrimitive)
+            FloatPrimitive.new(-value.raw_value)
+        else
+            raise "TypeError: Unsupported operand type for -: #{value.class}"
         end
     end
 

@@ -18,7 +18,7 @@ class Translator
     end
 
     def visit_null(node)
-        "Null"
+        "null"
     end
 
     ## ARITHMETIC OPERATIONS
@@ -59,7 +59,7 @@ class Translator
         "#{left_translation} ^ #{right_translation}"
     end
 
-    def visit_Negate(node)
+    def visit_negate(node)
         left_translation = node.left.visit(self)
         "-#{left_translation}"
     end
@@ -163,5 +163,37 @@ class Translator
     end
 
     # RVALUE?? figure that out idk
+    def visit_rvalue(node)
+        node.expr.to_s
+    end
+
+    def visit_assign(node)
+        expr_txt = node.expr.visit(self)
+        "#{node.name} = #{expr_txt}"
+    end
+
+    def visit_print(node)
+        expr_txt = node.expr.visit(self)
+        "puts #{expr_txt}"
+    end
+
+    def visit_block(node)
+        if node.statements.length == 0
+            return ""
+        end
+
+        txt = ""
+
+        for i in 0...node.statements.length
+            stmt_txt = node.statements[i].visit(self)
+
+            if i == 0
+                txt = stmt_txt
+            else
+                txt = txt + "\n" + stmt_txt
+            end
+        end
+        txt
+    end
 
 end 
